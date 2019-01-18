@@ -47,13 +47,15 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'login' => 'required|string|max:255|unique:users,login',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:5|confirmed'
       ]);
 
 
         User::create([
             'name' => $request['name'],
+            'login' => $request['login'],
             'email' => $request['email'],
             'password' => bcrypt($request['password'])
         ]);
@@ -96,17 +98,18 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => [
+            'login' => [
                 'required',
                 'string',
-                'email',
                 'max:255',
                 \Illuminate\Validation\Rule::unique('users')->ignore($user->id),
             ],
+            'email' => 'required|string|email|max:255',
             'password' => 'nullable|string|min:5|confirmed',
       ]);
 
         $user->name = $request['name'];
+        $user->login = $request['login'];
         $user->email = $request['email'];
         $request['password'] == null ?: $user->password = bcrypt($request['password']);
         $user->save();
@@ -127,3 +130,4 @@ class UserController extends Controller
         return redirect()->route('admin.user_managment.user.index');
     }
 }
+
