@@ -6,30 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Category
- *
  * @package App
  */
 class Category extends Model
 {
     // Массовое заполнение
     protected $fillable = [
-    	'title', 
-    	'published'
+        'title', 
+        'published'
     ];
 
     // Связь с таблицей questions один ко многим
-    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function questions() {
-    	
+    public function questions()
+    {
             return $this->hasMany('App\Question');
-
-        }
+    }
 
     // Возвращает все опубликованные категории
-    
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -39,7 +35,6 @@ class Category extends Model
     }
     
     // Возвращает все опубликованные категории имеющие хотя бы один вопрос
-    
     /**
      * @return \App\Category[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
