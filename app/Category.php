@@ -40,6 +40,8 @@ class Category extends Model
      */
     public static function related()
     {
-        return Category::has('questions')->where('published', 1)->get();
+        return Category::whereHas('questions', 
+                                    function($q) {$q->where('published', 1);}
+                                  )->get();
     }
 }
